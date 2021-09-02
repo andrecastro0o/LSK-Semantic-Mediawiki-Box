@@ -30,6 +30,10 @@
     - curl
     - tmux
     - lynx
+    - mariadb-server
+    - python3-mysqldb
+    - python-pymysql
+    - php
 
 - name: 4 pip3 executable
   command: which pip3
