@@ -30,15 +30,11 @@ vagrant up
 
 Wiki User:
 * user name: `Admin`
-* user password: `AdminPWD`
+* user password: `AdminPassword`
 
 
-**TODO**
-* mirror to github
-* 
 
-
-After installation process has finished, **visit Fuseki UI at  <http://192.168.60.120/??/??/>**
+After installation process has finished, **visit Fuseki UI at  <http://192.168.60.120/wiki/>**
 
 `vagrant reload --provision` will re-run the Ansile playbook in the created Vagrant box
 
@@ -68,4 +64,6 @@ vagrant resume
 * look for default/main.yml vars with `# IN DEPLOYMENT: overwrite in host file` and write them in hosts file of deployment repos
 
 
-# TODO
+
+**TODO**
+* Check `BUG:`

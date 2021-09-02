@@ -32,9 +32,11 @@
     - lynx
     - mariadb-server
     - python3-mysqldb
+    - python3-pymysql
     - python-pymysql
     - php
     - composer
+    - imagemagick
 
 - name: 4 register pip3 executable
   command: which pip3
