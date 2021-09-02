@@ -2,3 +2,22 @@
 # precedence (hightest 1st): -e "var=val", roleX/vars/main.yml, inventory, roleX/defaults/main.yml 
 
 vm_url: 'http://192.168.60.120' # vagrant URL # overwritten by inventory
+mariadb_root_pass: mysqlpwd  # IN DEPLOYMENT: overwrite in host file
+php_extensions:
+  - "php-common"
+  - "php-cli"
+  - "php-fpm"
+  - "php-pgsql"
+  - "php-mysql"
+  - "php-gd"
+  - "php-bz2"
+  - "php-zip"
+  - "php-json"
+  - "php-xml"
+  - "php-curl"
+  - "php-intl"
+  - "php-mbstring"
+  - "php-bcmath"
+  - "php-soap"
+  - "php-opcache"
+  - "php-mail"

@@ -35,6 +35,27 @@
     - python-pymysql
     - php
 
-- name: 4 pip3 executable
+- name: 4 register pip3 executable
   command: which pip3
   register: pip3_path
+
+- name: 5 Configure MariaDB@vm.local
+  template:
+    src:  mysql.cnf
+    dest: /etc/mysql/my.cnf
+    mode: o-rw
+
+- name: 6 Start Mysql Service
+  service:
+    name: mysql
+    state: started
+    enabled: true
+
+- name: 7 install php extensions
+  package:
+    pkg: "{{ item }}"
+    state: "present"
+  loop: "{{ php_extensions }}"
+  notify: restart_webserver
+
+

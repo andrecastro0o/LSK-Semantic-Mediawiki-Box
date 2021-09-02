@@ -55,3 +55,7 @@ vagrant suspend
 # resume from disc
 vagrant resume
 ```
+
+# TODO
+* return to mysql and php in https://git.tib.eu/ansible-playbooks/ansible_subplaybook_lamp/-/tree/master/roles
+    * to setup both - mysql db, php extensions
