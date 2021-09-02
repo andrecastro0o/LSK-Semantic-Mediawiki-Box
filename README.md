@@ -1,4 +1,7 @@
-# Apache Jena Fuseki in a Vagrant Box
+# LSK - Semantic Mediawiki in a Vagrant Box
+
+Github mirror: https://github.com/TIBHannover/LSK-Semantic-Mediawiki-Box
+
 
 (IN PROGRESS)
 
