@@ -34,6 +34,7 @@
     - python3-mysqldb
     - python-pymysql
     - php
+    - composer
 
 - name: 4 register pip3 executable
   command: which pip3

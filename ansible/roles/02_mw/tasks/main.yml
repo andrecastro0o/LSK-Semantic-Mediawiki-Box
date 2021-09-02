@@ -1,0 +1,56 @@
+---
+
+- name: 1 Is MW dir present?
+  stat:
+    path: '{{ mediawiki_path }}/maintenance'
+  register: stat_mediawiki_repo
+
+- name: 2 print stat_mediawiki_repo
+  debug:
+    msg: '{{ stat_mediawiki_repo }}'
+
+- name: 3 Clone mediawiki
+  git:
+    repo: 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git'
+    dest: '{{ mediawiki_path }}'
+    version: "{{ mediawiki_version|default('HEAD') }}"
+    depth: 1
+    force: yes
+  when: not stat_mediawiki_repo.stat.exists
+
+- name: 4 Create wiki db 
+  mysql_db:
+    name: '{{ mediawiki_db.name }}'
+    login_unix_socket: '/var/run/mysqld/mysqld.sock'
+
+- name: 5 Create database user
+  mysql_user:
+    name: '{{ mediawiki_db.user }}'
+    password: '{{ mediawiki_db.pwd }}'
+    priv: '{{ mediawiki_db.name }}.*:ALL'
+    login_unix_socket: '/var/run/mysqld/mysqld.sock'
+
+- name: 6 Is LocalSettings.php present?
+  stat:
+    path: '{{ mediawiki_path }}/LocalSettings.php'
+  register: stat_LocalSettings
+
+- name: 7 Discard old LocalSettings
+  file:
+    path: '{{ mediawiki_path }}/LocalSettings.php'
+    state: absent
+  when: stat_LocalSettings
+
+- name: 8 Install mediawiki
+  command: php {{ mediawiki_path }}/maintenance/install.php
+    --dbname {{ mediawiki_db.name | quote }}
+    --dbuser {{ mediawiki_db.user | quote }}
+    --dbpass {{ mediawiki_db.pwd | quote }}
+    --dbtype {{ mediawiki_db.connection | quote }}
+    --lang {{ mediawiki_language | quote }}
+    --pass {{ admin_user.pwd | quote }}
+    --scriptpath {{ mw_script_path | quote }}
+    --server {{ vm_url | quote }}
+    {{ mw_instance_name | quote }} {{ admin_user.name | quote }}
+  args:
+    creates: '{{ mediawiki_path }}/LocalSettings.php'

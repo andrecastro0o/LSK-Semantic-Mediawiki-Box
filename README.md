@@ -25,6 +25,14 @@ git clone git@git.tib.eu:lab-linked-scientific-knowledge/semantic-mediawiki-box.
 cd semantic-mediawiki-box
 vagrant up
 ```
+
+## View
+
+Wiki User:
+* user name: `Admin`
+* user password: `AdminPWD`
+
+
 **TODO**
 * mirror to github
 * 
@@ -56,6 +64,8 @@ vagrant suspend
 vagrant resume
 ```
 
+# For Deployment:
+* look for default/main.yml vars with `# IN DEPLOYMENT: overwrite in host file` and write them in hosts file of deployment repos
+
+
 # TODO
-* return to mysql and php in https://git.tib.eu/ansible-playbooks/ansible_subplaybook_lamp/-/tree/master/roles
-    * to setup both - mysql db, php extensions

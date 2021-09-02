@@ -4,3 +4,7 @@
     - role: 01_utils
       tags:
         - utils
+    - role: 02_mw
+      tags:
+        - mw
+    
