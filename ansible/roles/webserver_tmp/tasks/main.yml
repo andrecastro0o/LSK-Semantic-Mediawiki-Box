@@ -4,5 +4,4 @@
   template:
     src: default.conf
     dest: /etc/nginx/sites-available/default
-    notify: restart_webserver
-
+  notify: restart_webserver
