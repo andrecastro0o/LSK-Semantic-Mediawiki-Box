@@ -8,7 +8,7 @@ smw_version: '~3.2'
 semanticscribunto_version: '~2.1'
 semanticite_version: '~2.1'
 semanticformats_version: '~3.2'
-maps_version: '~9.0'
+maps_version: '~8.0'  # v8.0 for php7.3  and v9.0 for php 7.4 - both MW REL1_35
 
 admin_user:
   name: Admin  # IN DEPLOYMENT: overwrite in host file
@@ -20,3 +20,155 @@ mediawiki_db:
   pwd: 'smwbox_db_user_pwd'  # IN DEPLOYMENT: overwrite in host file
 mw_admin_email: user@domain.com  # IN DEPLOYMENT: overwrite in host file
 mw_logo: ''  # IN DEPLOYMENT: overwrite in host file
+
+extensions_bundled:
+  - ext_name: "Cite"
+    load_strs: 
+      - "wfLoadExtension('Cite');"
+  - ext_name: "CodeEditor"
+    load_strs: 
+      - "wfLoadExtension('CodeEditor');"
+      - "$wgDefaultUserOptions['usebetatoolbar'] = 1;"
+  - ext_name: "ParserFunctions"
+    load_strs: 
+      - "wfLoadExtension('ParserFunctions');"
+      - "$wgPFEnableStringFunctions = true;"
+  - ext_name: "Renameuser"
+    load_strs: 
+      - "wfLoadExtension('Renameuser');"
+  - ext_name: "SyntaxHighlight_GeSHi"
+    load_strs:
+      - "wfLoadExtension('SyntaxHighlight_GeSHi');" 
+      - "$wgSyntaxHighlightModels['CONTENT_MODEL_SCRIBUNTO'] = 'lua';"    
+  - ext_name: "WikiEditor"
+    load_strs: 
+      - "wfLoadExtension( 'WikiEditor' );"    
+  - ext_name: "Scribunto"
+    load_strs:
+      - "wfLoadExtension( 'Scribunto' );"
+      - "$wgScribuntoDefaultEngine = 'luastandalone';"
+      - "$wgScribuntoUseGeSHi = true;"
+      - "$wgScribuntoUseCodeEditor = true;"
+  - ext_name: "SpamBlacklist"
+    load_strs: 
+      - "wfLoadExtension( 'SpamBlacklist' );"    
+  - ext_name: "Nuke"
+    load_strs: 
+      - "wfLoadExtension( 'Nuke' );"
+
+extensions_composer:
+  - ext_name: "Bootstrap"
+    composer_cmd: '--no-update mediawiki/bootstrap:~4.0'
+    load_strs:
+      - "wfLoadExtension( 'Bootstrap' );"
+  - ext_name: "Semantic Mediawiki"
+    composer_cmd: 'mediawiki/semantic-media-wiki "{{smw_version}}"'
+    load_strs: 
+      - "enableSemantics( '{{vm_url}}{{ mw_script_path }}/', true );"
+      - "$smwgShowFactbox=true;"
+      - "$smwgFieldTypeFeatures=SMW_FIELDT_CHAR_NOCASE;"
+      - "$smwgQMaxInlineLimit=1500;"
+      - "$smwgQMaxInlineLimitSets=1500;"
+      - "$smwgChangePropagationProtection=true;"
+      - "$smwgPageSpecialProperties=array_merge($smwgPageSpecialProperties, ['_LEDT', '_CDAT', '_NEWP' ]);"
+      - "$wgCapitalLinks=false;"
+  - ext_name: "Semantic Cite"
+    composer_cmd: 'mediawiki/semantic-cite "{{semanticite_version}}"'
+    load_strs: 
+      - "wfLoadExtension( 'SemanticCite' );"
+  - ext_name: "Semantic Result Formats"
+    composer_cmd: 'mediawiki/semantic-result-formats "{{semanticformats_version}}"'
+    load_strs:
+      - "wfLoadExtension( 'SemanticResultFormats' );"
+  - ext_name: "Maps"
+    composer_cmd: 'mediawiki/maps "{{maps_version}}"'
+    load_strs:
+      - "wfLoadExtension( 'Maps' );" 
+
+
+extensions_git:
+  - ext_name: 'PageForms'
+    enable: true
+    repo: 'https://gerrit.wikimedia.org/r/mediawiki/extensions/PageForms.git'
+    version: '{{ mediawiki_version }}'
+    dest: '{{ mediawiki_path }}/extensions/PageForms'
+    load_strs: 
+      - "wfLoadExtension( 'PageForms' );"
+  - ext_name: 'ParserFunctions'
+    enable: true
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-ParserFunctions.git'
+    version: '{{ mediawiki_version }}'
+    dest: '{{ mediawiki_path }}/extensions/ParserFunctions'
+    load_strs: 
+      - "wfLoadExtension( 'ParserFunctions' );"
+  - ext_name: 'Interwiki'
+    enable: true
+    repo: 'https://gerrit.wikimedia.org/r/mediawiki/extensions/Interwiki.git'
+    version: '{{ mediawiki_version }}'
+    dest: '{{ mediawiki_path }}/extensions/Interwiki'
+    load_strs: 
+      - "wfLoadExtension( 'Interwiki' );"
+      - "$wgGroupPermissions['sysop']['interwiki'] = true;"
+  - ext_name: 'AdminLinks'
+    enable: true
+    repo: 'https://gerrit.wikimedia.org/r/mediawiki/extensions/AdminLinks.git'
+    version: '{{ mediawiki_version }}'
+    dest: '{{ mediawiki_path }}/extensions/AdminLinks'
+    load_strs: 
+      - "wfLoadExtension( 'AdminLinks' );"
+  - ext_name: 'ReplaceText'
+    enable: true
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-ReplaceText.git'
+    version: '{{ mediawiki_version }}'
+    dest: '{{ mediawiki_path }}/extensions/ReplaceText'
+    load_strs: 
+      - "wfLoadExtension( 'ReplaceText' );"
+  - ext_name: 'SemanticDrilldown'
+    enable: true
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-SemanticDrilldown.git'
+    version: '{{ mediawiki_version }}'
+    dest: '{{ mediawiki_path }}/extensions/SemanticDrilldown'
+    load_strs:  
+      - 'require_once "$IP/extensions/SemanticDrilldown/SemanticDrilldown.php";'
+  - ext_name: 'ConfirmAccount'
+    enable: true
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-ConfirmAccount.git'
+    version: '{{ mediawiki_version }}'
+    dest: '{{ mediawiki_path }}/extensions/ConfirmAccount'
+    load_strs:
+      - 'require_once "$IP/extensions/ConfirmAccount/ConfirmAccount.php";'
+      - '$wgConfirmAccountRequestFormItems["Biography"]["enabled"] = false;'
+      - '$wgWhitelistRead = array( "Special:RequestAccount" );'
+      - '$wgGroupPermissions["bureaucrat"]["confirmaccount-notify"] = true;'
+  - ext_name: 'MyVariables'
+    enable: true
+    repo: 'https://gerrit.wikimedia.org/r/mediawiki/extensions/MyVariables.git'
+    version: '{{ mediawiki_version }}'
+    dest: '{{ mediawiki_path }}/extensions/MyVariables'
+    load_strs:
+      - "wfLoadExtension( 'MyVariables' );"
+  - ext_name: 'AutoCreatePage'  # UNMAINTAINED: Only SFBS use it
+    enable: true
+    repo: 'https://github.com/mkroetzsch/AutoCreatePage.git'
+    version: 'master'
+    dest: '{{ mediawiki_path }}/extensions/AutoCreatePage'
+    load_strs:
+      - 'require_once "$IP/extensions/AutoCreatePage/AutoCreatePage.php";'
+      - '$egAutoCreatePageNamespaces = [NS_MAIN];'
+  - ext_name: 'Arrays'  
+    enable: true
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-Arrays.git'
+    version: '{{ mediawiki_version }}'
+    dest: '{{ mediawiki_path }}/extensions/Arrays'
+    load_strs:
+      - "wfLoadExtension( 'Arrays' );"
+  - ext_name: 'LookupUser'  
+    enable: true
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-LookupUser.git'
+    version: '{{ mediawiki_version }}'
+    dest: '{{ mediawiki_path }}/extensions/LookupUser'
+    load_strs:
+      - "wfLoadExtension( 'LookupUser' );"
+      - "$wgGroupPermissions['*']['lookupuser'] = false;"
+      - "$wgGroupPermissions['sysop']['lookupuser'] = true;"
+

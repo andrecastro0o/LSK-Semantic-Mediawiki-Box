@@ -62,17 +62,13 @@
     minute: "*/1"
     job: ' /usr/bin/php {{ mediawiki_path }}/maintenance/runJobs.php --maxtime=3600  > /dev/null'
 
+# LocalSettings
+
 - name: LocalSettings Email
   replace:
     path: '{{ mediawiki_path }}/LocalSettings.php'
     regexp: '\"\w.+\@\w.+\"\;'
     replace: '"{{ mw_admin_email }}";'
-
-# - name: LocalSettings Email
-#   replace:
-#     path: '{{ mediawiki_path }}/LocalSettings.php'
-#     regexp: '\"\w.+\@\w.+\"\;'
-#     replace: '{{ mw_admin_email }}'
 
 - name: Logo copy
   copy:
@@ -81,7 +77,6 @@
     owner: www-data
     group: www-data
   when: mw_logo|length > 1
-
 
 - name: Settings in LocalSetting.php
   blockinfile:
@@ -135,7 +130,59 @@
     - restart_php 
     - restart_webserver
 
+# extensions - Bundle
 
-# check uploads,
-# logo
-# 
+- name: Enable MW Pre-Bundled Extensions
+  lineinfile:
+    path: '{{ mediawiki_path }}/LocalSettings.php'
+    insertafter: EOF
+    line: "# {{ item.ext_name }}\n{{ item.load_strs | join('\n') }}\n"
+  with_items:
+    - '{{ extensions_bundled }}'
+
+# extensions - Composer
+
+- name: Install Composer Extensions
+  command:
+    cmd: composer require {{ item.composer_cmd }} --update-no-dev --quiet
+    chdir: '{{ mediawiki_path }}'
+  with_items:
+    - '{{ extensions_composer }}'
+
+- name: Enable Composer Extensions
+  lineinfile:
+    path: '{{ mediawiki_path }}/LocalSettings.php'
+    insertafter: 'EOF'
+    line: "# {{ item.ext_name }}\n{{ item.load_strs | join('\n') }}\n"
+    state: present
+  with_items:
+    - '{{ extensions_composer }}'
+  notify: update_mw
+
+# extensions - git
+
+
+- name: Install Git Extensions
+  git:
+    repo: '{{ item.repo }}'
+    dest: '{{ item.dest }}'
+    version: '{{ item.version }}'
+    depth: 1
+    force: yes
+  with_items: '{{ extensions_git }}'
+  when: item.enable | bool
+  tags: git_ext
+
+- name: Enable Git Extensions
+  lineinfile:
+    path: '{{ mediawiki_path }}/LocalSettings.php'
+    insertafter: EOF
+    line: "# {{ item.ext_name }}\n{{ item.load_strs | join('\n') }}\n"
+  with_items: '{{ extensions_git }}'
+  when: item.enable | bool
+  notify: update_mw
+  tags: git_ext
+
+
+
+# skin
