@@ -1,0 +1,20 @@
+---
+- name: reload_webserver
+  service:
+    name: 'nginx'
+    state: reloaded
+
+- name: restart_webserver
+  service:
+    name: 'nginx'
+    state: restarted
+
+- name: restart_php
+  service:
+    name: 'php7.3-fpm.service'
+    state: restarted
+
+- name: update_mw
+  command:
+    cmd: 'php maintenance/update.php'
+    chdir: '{{ mediawiki_path }}'

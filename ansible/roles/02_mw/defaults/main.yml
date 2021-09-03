@@ -18,3 +18,5 @@ mediawiki_db:
   name: 'smwbox'  # IN DEPLOYMENT: overwrite in host file
   user: 'smwbox_db_user'  # IN DEPLOYMENT: overwrite in host file
   pwd: 'smwbox_db_user_pwd'  # IN DEPLOYMENT: overwrite in host file
+mw_admin_email: user@domain.com  # IN DEPLOYMENT: overwrite in host file
+mw_logo: ''  # IN DEPLOYMENT: overwrite in host file

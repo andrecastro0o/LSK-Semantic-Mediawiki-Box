@@ -55,3 +55,87 @@
     {{ mw_instance_name | quote }} {{ admin_user.name | quote }}
   args:
     creates: '{{ mediawiki_path }}/LocalSettings.php'
+
+- name: runJobs every minute
+  cron:
+    name: "run MW jobs"
+    minute: "*/1"
+    job: ' /usr/bin/php {{ mediawiki_path }}/maintenance/runJobs.php --maxtime=3600  > /dev/null'
+
+- name: LocalSettings Email
+  replace:
+    path: '{{ mediawiki_path }}/LocalSettings.php'
+    regexp: '\"\w.+\@\w.+\"\;'
+    replace: '"{{ mw_admin_email }}";'
+
+# - name: LocalSettings Email
+#   replace:
+#     path: '{{ mediawiki_path }}/LocalSettings.php'
+#     regexp: '\"\w.+\@\w.+\"\;'
+#     replace: '{{ mw_admin_email }}'
+
+- name: Logo copy
+  copy:
+    src: '{{ mw_logo }}'
+    dest: '{{ mediawiki_path }}/resources/assets/wiki.png'
+    owner: www-data
+    group: www-data
+  when: mw_logo|length > 1
+
+
+- name: Settings in LocalSetting.php
+  blockinfile:
+    path: '{{ mediawiki_path }}/LocalSettings.php'
+    insertafter: EOF
+    block: |
+        # Job are run by cron
+        $wgJobRunRate = 0;
+        # Permissions
+        $wgGroupPermissions['*']['read'] = false;
+        $wgGroupPermissions['*']['edit'] = false;
+        $wgGroupPermissions['user']['edit'] = true;
+        $wgGroupPermissions['*']['createaccount'] = false;
+        # uploads
+        $wgEnableUploads = true;
+        $wgUseImageMagick = true;
+        $wgImageMagickConvertCommand = "/usr/bin/convert";
+        $wgFileExtensions = array( 'pdf', 'png', 'gif', 'jpg', 'jpeg', 'svg', 'pdf', 'mp4', 'mp3' );
+        $wgAllowExternalImages = true;
+        $wgMaxUploadSize = 20971520;  # 20Mb;
+        $wgUploadSizeWarning = 20971520;
+        $wgAllowCopyUploads = true;
+        $wgGroupPermissions['user']['upload_by_url'] = true; # Uploading directly from a URL
+        $wgCopyUploadsFromSpecialUpload = true;
+        # Debug
+        $wgShowExceptionDetails=true;
+        $wgShowSQLError=true;
+        $wgShowDBErrorBacktrace=true;
+        error_reporting(-1);
+        ini_set('display_errors',1);
+
+- name: write permissions to images/
+  file:
+    path: '{{ mediawiki_path }}/images'
+    state: directory
+    mode: a+rw
+    recurse: yes
+
+- name: Change /etc/php/7.3/fpm/php.ini post_max_size size
+  lineinfile:
+    path: /etc/php/7.3/fpm/php.ini
+    regexp: '^post_max_size'
+    line: post_max_size = 20M
+
+- name: Change /etc/php/7.3/fpm/php.ini upload_max_filesize size
+  lineinfile:
+    path: /etc/php/7.3/fpm/php.ini
+    regexp: '^upload_max_filesize'
+    line: upload_max_filesize = 20M
+  notify: 
+    - restart_php 
+    - restart_webserver
+
+
+# check uploads,
+# logo
+# 
