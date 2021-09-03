@@ -131,7 +131,6 @@
     - restart_webserver
 
 # extensions - Bundle
-
 - name: Enable MW Pre-Bundled Extensions
   lineinfile:
     path: '{{ mediawiki_path }}/LocalSettings.php'
@@ -141,7 +140,6 @@
     - '{{ extensions_bundled }}'
 
 # extensions - Composer
-
 - name: Install Composer Extensions
   command:
     cmd: composer require {{ item.composer_cmd }} --update-no-dev --quiet
@@ -159,9 +157,7 @@
     - '{{ extensions_composer }}'
   notify: update_mw
 
-# extensions - git
-
-
+# extensions - Git
 - name: Install Git Extensions
   git:
     repo: '{{ item.repo }}'
@@ -184,5 +180,17 @@
   tags: git_ext
 
 
-
 # skin
+- name: Install Chameleon Skin (LSK Fork)
+  git:
+    repo: 'https://github.com/TIBHannover/chameleon.git'
+    dest: '{{ mediawiki_path }}/skins/chameleon'
+    version: '{{ chameleon_skin_branch }}'
+    depth: 1
+    force: yes
+
+- name: Enable Chameleon Skin
+  lineinfile:
+    path: '{{ mediawiki_path }}/LocalSettings.php'
+    insertafter: EOF
+    line: "wfLoadSkin( 'chameleon' );\n"
