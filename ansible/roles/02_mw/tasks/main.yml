@@ -23,14 +23,14 @@
     name: '{{ mediawiki_db.name }}'
     login_unix_socket: '/var/run/mysqld/mysqld.sock'
 
-- name: 5 Create database user  # BUG: not working when user is already created
+- name: 5 Create database user
   mysql_user:
     name: '{{ mediawiki_db.user }}'
     password: '{{ mediawiki_db.pwd }}'
     priv: '{{ mediawiki_db.name }}.*:ALL'
     login_unix_socket: '/var/run/mysqld/mysqld.sock'
   ignore_errors: yes
-  
+
 - name: 6 Is LocalSettings.php present?
   stat:
     path: '{{ mediawiki_path }}/LocalSettings.php'

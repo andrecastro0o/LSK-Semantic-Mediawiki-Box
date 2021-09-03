@@ -1,0 +1,8 @@
+---
+
+- name: nginx default template
+  template:
+    src: default.conf
+    dest: /etc/nginx/sites-available/default
+    notify: restart_webserver
+
