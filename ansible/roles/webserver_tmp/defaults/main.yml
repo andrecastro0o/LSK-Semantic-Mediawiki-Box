@@ -1,0 +1,3 @@
+---
+nginx_includes_dir: '/etc/nginx/includes'
+nginx_conf: 'mw.conf'

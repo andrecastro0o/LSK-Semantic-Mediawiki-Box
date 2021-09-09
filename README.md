@@ -63,7 +63,10 @@ vagrant resume
 # For Deployment:
 * look for default/main.yml vars with `# IN DEPLOYMENT: overwrite in host file` and write them in hosts file of deployment repos
 
-
+* Webserver: Nginx
+    * service configuration stored in `/etc/nginx/includes/mw.conf`
 
 **TODO**
-* Check `BUG:`
+* chameleon skin setting - default, marc's bramch
+* webserver setting with include
+    * wiki web path

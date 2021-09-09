@@ -1,7 +1,52 @@
 ---
 
-- name: nginx default template
+- name: 1 create nginx includes dir
+  file:
+    state: directory
+    path: '{{ ngix_includes_dir }}'
+    mode: og+wr
+    owner: root
+    group: root
+
+- name: 2 NGINX OR includes config
   template:
-    src: default.conf
-    dest: /etc/nginx/sites-available/default
-  notify: restart_webserver
+    src: nginx_mw_include.j2
+    dest: '{{ ngix_includes_dir }}/{{ nginx_conf }}'
+    mode: og+wr
+    owner: root
+    group: root
+
+- name: 3 remove comments from NGINX site default
+  lineinfile:
+    path: /etc/nginx/sites-available/default
+    regexp: '#\s*?.*$'
+    state: absent
+
+- name: 4 insert mw conf to NGINX site default
+  lineinfile:
+    path: /etc/nginx/sites-available/default
+    insertafter: 'root /var/www/html;'
+    line: '        include '{{ ngix_includes_dir }}/{{ nginx_conf }}'
+    mode: og+wr
+    owner: root
+    group: root
+
+- name: 5 enable NGINX default config
+  file:
+    src: /etc/nginx/sites-available/default
+    dest: /etc/nginx/sites-enabled/default
+    state: link
+
+- name: 6 reload_webserver
+  service:
+    name: 'nginx'
+    state: reloaded
+
+
+
+
+# - name: nginx default template
+#   template:
+#     src: default.conf
+#     dest: /etc/nginx/sites-available/default
+#   notify: restart_webserver
