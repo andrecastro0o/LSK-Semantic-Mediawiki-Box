@@ -3,7 +3,7 @@
 - name: 1 create nginx includes dir
   file:
     state: directory
-    path: '{{ ngix_includes_dir }}'
+    path: '{{ nginx_includes_dir }}'
     mode: og+wr
     owner: root
     group: root
@@ -11,7 +11,7 @@
 - name: 2 NGINX OR includes config
   template:
     src: nginx_mw_include.j2
-    dest: '{{ ngix_includes_dir }}/{{ nginx_conf }}'
+    dest: '{{ nginx_includes_dir }}/{{ nginx_conf }}'
     mode: og+wr
     owner: root
     group: root
@@ -26,7 +26,7 @@
   lineinfile:
     path: /etc/nginx/sites-available/default
     insertafter: 'root /var/www/html;'
-    line: '        include '{{ ngix_includes_dir }}/{{ nginx_conf }}'
+    line: '        include {{ nginx_includes_dir }}/{{ nginx_conf }};'
     mode: og+wr
     owner: root
     group: root

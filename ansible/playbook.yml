@@ -8,3 +8,5 @@
       tags:
         - mw
     - role: webserver
+      tags:
+        - webserver
