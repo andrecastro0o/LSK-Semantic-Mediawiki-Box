@@ -190,7 +190,18 @@
     force: yes
 
 - name: Enable Chameleon Skin
-  lineinfile:
+  blockinfile:
     path: '{{ mediawiki_path }}/LocalSettings.php'
     insertafter: EOF
-    line: "wfLoadSkin( 'chameleon' );\n"
+    block: | 
+      wfLoadSkin( 'chameleon' );
+      $egChameleonLayoutFile = __DIR__ . '/skins/chameleon/layouts/custom.xml';
+      $egChameleonExternalStyleModule =  __DIR__ . '/skins/chameleon/resources/styles/custom.scss';
+
+- name: Chameleon skin as default
+  replace:
+      path: '{{ mediawiki_path }}/LocalSettings.php'
+      regexp: '\$wgDefaultSkin\ =\ \"vector\";'
+      replace: '$wgDefaultSkin = "chameleon";'
+
+  

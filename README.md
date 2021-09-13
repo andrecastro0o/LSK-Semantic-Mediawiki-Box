@@ -67,6 +67,3 @@ vagrant resume
     * service configuration stored in `/etc/nginx/includes/mw.conf`
 
 **TODO**
-* chameleon skin setting - default, marc's bramch
-* webserver setting with include
-    * wiki web path
