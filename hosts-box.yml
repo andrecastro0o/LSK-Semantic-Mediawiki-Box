@@ -9,6 +9,7 @@ all:
       ansible_python_interpreter: '/usr/bin/python3' 
       vm_url: 'http://192.168.60.120' # vagrant URL # IN DEPLOYMENT: overwrite 
       vm_url_path: '/box' # start with / #   # change itn deployment 
-      wiki_url_path: '/wiki'
+      mw_url_path: '/wiki'
+      mw_path: '/var/www/html{{ mw_url_path }}'
       mw_instance_name: 'smwbox'  # IN DEPLOYMENT: overwrite in host file
       mariadb_root_pass: mysqlpwd  # IN DEPLOYMENT: overwrite
