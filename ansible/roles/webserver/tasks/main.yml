@@ -31,22 +31,19 @@
     owner: root
     group: root
 
-- name: 5 enable NGINX default config
+- name: 5 insert index.php into index files
+  replace:
+    path: /etc/nginx/sites-available/default
+    regexp: 'index\.nginx-debian\.html'
+    replace: 'index.php'
+
+- name: 6 enable NGINX default config
   file:
     src: /etc/nginx/sites-available/default
     dest: /etc/nginx/sites-enabled/default
     state: link
 
-- name: 6 reload_webserver
+- name: 7 reload_webserver
   service:
     name: 'nginx'
     state: reloaded
-
-
-
-
-# - name: nginx default template
-#   template:
-#     src: default.conf
-#     dest: /etc/nginx/sites-available/default
-#   notify: restart_webserver

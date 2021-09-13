@@ -21,7 +21,7 @@ mediawiki_db:
 mw_admin_email: user@domain.com  # IN DEPLOYMENT: overwrite in host file
 mw_logo: ''  # IN DEPLOYMENT: overwrite in host file
 
-chameleon_skin_branch: 'sfb1153rev5' # IN DEPLOYMENT: overwrite in host file
+chameleon_skin_branch: 'sfb1153' # IN DEPLOYMENT: overwrite in host file
 
 extensions_bundled:
   - ext_name: "Cite"
