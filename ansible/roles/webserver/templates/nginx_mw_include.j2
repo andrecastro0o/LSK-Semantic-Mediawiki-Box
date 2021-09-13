@@ -10,33 +10,31 @@
         deny all;
     }
 
-# # BEGIN added by ansible
-# ## Mediawiki 
-#     # sfb1468 wiki - pretty URLs
+# Mediawiki =pretty URLs
 
-#     location /sfb1368/wiki/images {
-#         # Separate location for images/ so .php execution won't apply
-#     }
+location {{ vm_url_path }}{{ wiki_url_path }}/images {
+    # Separate location for images/ so .php execution won't apply
+}
 
-#     location /sfb1368/wiki/images/deleted {
-#         # Deny access to deleted images folder
-#         deny all;
-#     }
+location {{ vm_url_path }}{{ wiki_url_path }}/images/deleted {
+    # Deny access to deleted images folder
+    deny all;
+}
 
-#     # MediaWiki assets (usually images)
-#     location ~ ^/sfb1368/wiki/resources/(assets|lib|src) {
-#         try_files $uri 404;
-#         add_header Cache-Control "public";
-#         expires 7d;
-#     }
+# MediaWiki assets (usually images)
+location ~ ^{{ vm_url_path }}{{ wiki_url_path }}/resources/(assets|lib|src) {
+    try_files $uri 404;
+    add_header Cache-Control "public";
+    expires 7d;
+}
 
-#     # Assets, scripts and styles from skins and extensions
-#     location ~ ^/sfb1368/wiki/(skins|extensions)/.+\.(woff2|woff|ttf|css|js|gif|jpg|jpeg|png|svg|wasm)$ {
-#         try_files $uri 404;
-#         add_header Cache-Control "public";
-#         expires 7d;
-#     }
+# Assets, scripts and styles from skins and extensions
+location ~ ^{{ vm_url_path }}{{ wiki_url_path }}/(skins|extensions)/.+\.(woff2|woff|ttf|css|js|gif|jpg|jpeg|png|svg|wasm)$ {
+    try_files $uri 404;
+    add_header Cache-Control "public";
+    expires 7d;
+}
 
-#     location /sfb1368/wiki/ {
-#         rewrite ^/sfb1368/wiki/(?<pagename>.*)$ /sfb1368/wiki/index.php;
-#     }
+location {{ vm_url_path }}{{ wiki_url_path }}/ {
+    rewrite ^{{ vm_url_path }}{{ wiki_url_path }}/(?<pagename>.*)$ {{ vm_url_path }}{{ wiki_url_path }}/index.php;
+}

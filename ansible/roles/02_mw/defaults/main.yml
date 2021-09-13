@@ -1,7 +1,4 @@
 ---
-mediawiki_path: '/var/www/html/wiki'  # IN DEPLOYMENT: overwrite in host file
-mw_script_path: '/wiki'  # IN DEPLOYMENT: overwrite in host file
-mw_instance_name: 'smwbox'  # IN DEPLOYMENT: overwrite in host file
 mediawiki_language: 'en'
 mediawiki_version: REL1_35
 smw_version: '~3.2'
@@ -98,7 +95,7 @@ extensions_git:
       - "wfLoadExtension( 'PageForms' );"
   - ext_name: 'ParserFunctions'
     enable: true
-    repo: 'https://github.com/wikimedia/mediawiki-extensions-ParserFunctions.git'
+    repo: 'https://github.commw_url_pathmedia/mediawiki-extensions-ParserFunctions.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mediawiki_path }}/extensions/ParserFunctions'
     load_strs: 
@@ -120,21 +117,21 @@ extensions_git:
       - "wfLoadExtension( 'AdminLinks' );"
   - ext_name: 'ReplaceText'
     enable: true
-    repo: 'https://github.com/wikimedia/mediawiki-extensions-ReplaceText.git'
+    repo: 'https://github.commw_url_pathmedia/mediawiki-extensions-ReplaceText.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mediawiki_path }}/extensions/ReplaceText'
     load_strs: 
       - "wfLoadExtension( 'ReplaceText' );"
   - ext_name: 'SemanticDrilldown'
     enable: true
-    repo: 'https://github.com/wikimedia/mediawiki-extensions-SemanticDrilldown.git'
+    repo: 'https://github.commw_url_pathmedia/mediawiki-extensions-SemanticDrilldown.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mediawiki_path }}/extensions/SemanticDrilldown'
     load_strs:  
       - 'require_once "$IP/extensions/SemanticDrilldown/SemanticDrilldown.php";'
   - ext_name: 'ConfirmAccount'
     enable: true
-    repo: 'https://github.com/wikimedia/mediawiki-extensions-ConfirmAccount.git'
+    repo: 'https://github.commw_url_pathmedia/mediawiki-extensions-ConfirmAccount.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mediawiki_path }}/extensions/ConfirmAccount'
     load_strs:
@@ -159,14 +156,14 @@ extensions_git:
       - '$egAutoCreatePageNamespaces = [NS_MAIN];'
   - ext_name: 'Arrays'  
     enable: true
-    repo: 'https://github.com/wikimedia/mediawiki-extensions-Arrays.git'
+    repo: 'https://github.commw_url_pathmedia/mediawiki-extensions-Arrays.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mediawiki_path }}/extensions/Arrays'
     load_strs:
       - "wfLoadExtension( 'Arrays' );"
   - ext_name: 'LookupUser'  
     enable: true
-    repo: 'https://github.com/wikimedia/mediawiki-extensions-LookupUser.git'
+    repo: 'https://github.commw_url_pathmedia/mediawiki-extensions-LookupUser.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mediawiki_path }}/extensions/LookupUser'
     load_strs:

@@ -5,7 +5,7 @@ Github mirror: https://github.com/TIBHannover/LSK-Semantic-Mediawiki-Box
 
 (IN PROGRESS)
 
-**Installs [Mediawiki](https://www.mediawiki.org/wiki/MediaWiki) and [Semantic Mediawiki(SMW)](https://www.semantic-mediawiki.org) in Vagrant box**
+**Installs [Mediawiki](https://www.mediawiki.orgmw_url_path/MediaWiki) and [Semantic Mediawiki(SMW)](https://www.semantic-mediawiki.org) in Vagrant box**
 
 * Mediawiki version: 1.35 current long-term support (LTS)
 * Semantic Mediawiki version: 3.2.3
@@ -14,7 +14,7 @@ Github mirror: https://github.com/TIBHannover/LSK-Semantic-Mediawiki-Box
 Requirements to run box:
 * [Git](https://git-scm.com/downloads)
 * [Vagrant](https://www.vagrantup.com/downloads.html)
-* [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+* [VirtualBox](https://www.virtualbox.orgmw_url_path/Downloads)
 
 
 ## Installation
@@ -34,7 +34,7 @@ Wiki User:
 
 
 
-After installation process has finished, **visit Fuseki UI at  <http://192.168.60.120/wiki/>**
+After installation process has finished, **visit Mediawiki at  <http://192.168.60.120/box/wiki>**
 
 `vagrant reload --provision` will re-run the Ansile playbook in the created Vagrant box
 
@@ -67,3 +67,5 @@ vagrant resume
     * service configuration stored in `/etc/nginx/includes/mw.conf`
 
 **TODO**
+* webserver setting with include
+    * wiki web path

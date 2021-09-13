@@ -73,7 +73,7 @@
 - name: Logo copy
   copy:
     src: '{{ mw_logo }}'
-    dest: '{{ mediawiki_path }}/resources/assets/wiki.png'
+    dest: '{{ mediawiki_path }}/resources/assets{{ wiki_url_path }}.png'
     owner: www-data
     group: www-data
   when: mw_logo|length > 1
