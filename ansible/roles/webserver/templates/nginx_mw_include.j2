@@ -12,29 +12,29 @@
 
 # Mediawiki =pretty URLs
 
-location {{ vm_url_path }}{{ mw_url_path }}/images {
+location {{ vm_url_path }}{{ mw.url_path }}/images {
     # Separate location for images/ so .php execution won't apply
 }
 
-location {{ vm_url_path }}{{ mw_url_path }}/images/deleted {
+location {{ vm_url_path }}{{ mw.url_path }}/images/deleted {
     # Deny access to deleted images folder
     deny all;
 }
 
 # MediaWiki assets (usually images)
-location ~ ^{{ vm_url_path }}{{ mw_url_path }}/resources/(assets|lib|src) {
+location ~ ^{{ vm_url_path }}{{ mw.url_path }}/resources/(assets|lib|src) {
     try_files $uri 404;
     add_header Cache-Control "public";
     expires 7d;
 }
 
 # Assets, scripts and styles from skins and extensions
-location ~ ^{{ vm_url_path }}{{ mw_url_path }}/(skins|extensions)/.+\.(woff2|woff|ttf|css|js|gif|jpg|jpeg|png|svg|wasm)$ {
+location ~ ^{{ vm_url_path }}{{ mw.url_path }}/(skins|extensions)/.+\.(woff2|woff|ttf|css|js|gif|jpg|jpeg|png|svg|wasm)$ {
     try_files $uri 404;
     add_header Cache-Control "public";
     expires 7d;
 }
 
-location {{ vm_url_path }}{{ mw_url_path }}/ {
-    rewrite ^{{ vm_url_path }}{{ mw_url_path }}/(?<pagename>.*)$ {{ vm_url_path }}{{ mw_url_path }}/index.php;
+location {{ vm_url_path }}{{ mw.url_path }}/ {
+    rewrite ^{{ vm_url_path }}{{ mw.url_path }}/(?<pagename>.*)$ {{ vm_url_path }}{{ mw.url_path }}/index.php;
 }

@@ -20,14 +20,14 @@
 
 - name: 4 Create wiki db 
   mysql_db:
-    name: '{{ mediawiki_db.name }}'
+    name: '{{ mw.db.name }}'
     login_unix_socket: '/var/run/mysqld/mysqld.sock'
 
 - name: 5 Create database user
   mysql_user:
-    name: '{{ mediawiki_db.user }}'
-    password: '{{ mediawiki_db.pwd }}'
-    priv: '{{ mediawiki_db.name }}.*:ALL'
+    name: '{{ mw.db.user }}'
+    password: '{{ mw.db.pwd }}'
+    priv: '{{ mw.db.name }}.*:ALL'
     login_unix_socket: '/var/run/mysqld/mysqld.sock'
   ignore_errors: yes
 
@@ -44,15 +44,15 @@
 
 - name: 8 Install mediawiki
   command: php {{ mw_path }}/maintenance/install.php
-    --dbname {{ mediawiki_db.name | quote }}
-    --dbuser {{ mediawiki_db.user | quote }}
-    --dbpass {{ mediawiki_db.pwd | quote }}
-    --dbtype {{ mediawiki_db.connection | quote }}
+    --dbname {{ mw.db.name | quote }}
+    --dbuser {{ mw.db.user | quote }}
+    --dbpass {{ mw.db.pwd | quote }}
+    --dbtype {{ mw.db.connection | quote }}
     --lang {{ mediawiki_language | quote }}
-    --pass {{ admin_user.pwd | quote }}
+    --pass {{ mw.admin_user.pwd | quote }}
     --scriptpath {{ mw_path | quote }}
     --server {{ vm_url | quote }}
-    {{ mw_instance_name | quote }} {{ admin_user.name | quote }}
+    {{ mw.instance_name | quote }} {{ mw.admin_user.name | quote }}
   args:
     creates: '{{ mw_path }}/LocalSettings.php'
 
@@ -68,15 +68,15 @@
   replace:
     path: '{{ mw_path }}/LocalSettings.php'
     regexp: '\"\w.+\@\w.+\"\;'
-    replace: '"{{ mw_admin_email }}";'
+    replace: '"{{ mw.admin_email }}";'
 
 - name: Logo copy
   copy:
-    src: '{{ mw_logo }}'
-    dest: '{{ mw_path }}/resources/assets{{ mw_url_path }}.png'
+    src: '{{ mw.logo }}'
+    dest: '{{ mw_path }}/resources/assets{{ mw.url_path }}.png'
     owner: www-data
     group: www-data
-  when: mw_logo|length > 1
+  when: mw.logo|length > 1
 
 - name: Settings in LocalSetting.php
   blockinfile:
@@ -185,7 +185,7 @@
   git:
     repo: 'https://github.com/TIBHannover/chameleon.git'
     dest: '{{ mw_path }}/skins/chameleon'
-    version: '{{ chameleon_skin_branch }}'
+    version: '{{ mw.chameleon_skin_branch }}'
     depth: 1
     force: yes
 

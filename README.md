@@ -5,7 +5,7 @@ Github mirror: https://github.com/TIBHannover/LSK-Semantic-Mediawiki-Box
 
 (IN PROGRESS)
 
-**Installs [Mediawiki](https://www.mediawiki.orgmw_url_path/MediaWiki) and [Semantic Mediawiki(SMW)](https://www.semantic-mediawiki.org) in Vagrant box**
+**Installs [Mediawiki](https://www.mediawiki.org/) and [Semantic Mediawiki(SMW)](https://www.semantic-mediawiki.org) in Vagrant box**
 
 * Mediawiki version: 1.35 current long-term support (LTS)
 * Semantic Mediawiki version: 3.2.3
@@ -14,7 +14,7 @@ Github mirror: https://github.com/TIBHannover/LSK-Semantic-Mediawiki-Box
 Requirements to run box:
 * [Git](https://git-scm.com/downloads)
 * [Vagrant](https://www.vagrantup.com/downloads.html)
-* [VirtualBox](https://www.virtualbox.orgmw_url_path/Downloads)
+* [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
 
 ## Installation
@@ -62,7 +62,7 @@ vagrant resume
 
 # For Deployment:
 * look for default/main.yml vars with `# IN DEPLOYMENT: overwrite in host file` and write them in hosts file of deployment repos
-
+* variables that require overwriting can be found in  [hosts-box.yml](./hosts-box.yml)
 * Webserver: Nginx
     * service configuration stored in `/etc/nginx/includes/mw.conf`
 

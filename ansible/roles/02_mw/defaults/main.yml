@@ -7,19 +7,6 @@ semanticite_version: '~2.1'
 semanticformats_version: '~3.2'
 maps_version: '~8.0'  # v8.0 for php7.3  and v9.0 for php 7.4 - both MW REL1_35
 
-admin_user:
-  name: Admin  # IN DEPLOYMENT: overwrite in host file
-  pwd: AdminPassword  # IN DEPLOYMENT: overwrite in host file
-mediawiki_db:
-  connection: 'mysql'
-  name: 'smwbox'  # IN DEPLOYMENT: overwrite in host file
-  user: 'smwbox_db_user'  # IN DEPLOYMENT: overwrite in host file
-  pwd: 'smwbox_db_user_pwd'  # IN DEPLOYMENT: overwrite in host file
-mw_admin_email: user@domain.com  # IN DEPLOYMENT: overwrite in host file
-mw_logo: ''  # IN DEPLOYMENT: overwrite in host file
-
-chameleon_skin_branch: 'sfb1153' # IN DEPLOYMENT: overwrite in host file
-
 extensions_bundled:
   - ext_name: "Cite"
     load_strs: 
@@ -63,7 +50,7 @@ extensions_composer:
   - ext_name: "Semantic Mediawiki"
     composer_cmd: 'mediawiki/semantic-media-wiki "{{smw_version}}"'
     load_strs: 
-      - "enableSemantics( '{{ vm_url }}{{ vm_url_path }}{{ mw_url_path }}/', true );"
+      - "enableSemantics( '{{ vm_url }}{{ vm_url_path }}{{ mw.url_path }}/', true );"
       - "$smwgShowFactbox=true;"
       - "$smwgFieldTypeFeatures=SMW_FIELDT_CHAR_NOCASE;"
       - "$smwgQMaxInlineLimit=1500;"
@@ -95,7 +82,7 @@ extensions_git:
       - "wfLoadExtension( 'PageForms' );"
   - ext_name: 'ParserFunctions'
     enable: true
-    repo: 'https://github.commw_url_pathmedia/mediawiki-extensions-ParserFunctions.git'
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-ParserFunctions.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mw_path }}/extensions/ParserFunctions'
     load_strs: 
@@ -117,21 +104,21 @@ extensions_git:
       - "wfLoadExtension( 'AdminLinks' );"
   - ext_name: 'ReplaceText'
     enable: true
-    repo: 'https://github.commw_url_pathmedia/mediawiki-extensions-ReplaceText.git'
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-ReplaceText.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mw_path }}/extensions/ReplaceText'
     load_strs: 
       - "wfLoadExtension( 'ReplaceText' );"
   - ext_name: 'SemanticDrilldown'
     enable: true
-    repo: 'https://github.commw_url_pathmedia/mediawiki-extensions-SemanticDrilldown.git'
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-SemanticDrilldown.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mw_path }}/extensions/SemanticDrilldown'
     load_strs:  
       - 'require_once "$IP/extensions/SemanticDrilldown/SemanticDrilldown.php";'
   - ext_name: 'ConfirmAccount'
     enable: true
-    repo: 'https://github.commw_url_pathmedia/mediawiki-extensions-ConfirmAccount.git'
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-ConfirmAccount.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mw_path }}/extensions/ConfirmAccount'
     load_strs:
@@ -156,14 +143,14 @@ extensions_git:
       - '$egAutoCreatePageNamespaces = [NS_MAIN];'
   - ext_name: 'Arrays'  
     enable: true
-    repo: 'https://github.commw_url_pathmedia/mediawiki-extensions-Arrays.git'
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-Arrays.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mw_path }}/extensions/Arrays'
     load_strs:
       - "wfLoadExtension( 'Arrays' );"
   - ext_name: 'LookupUser'  
     enable: true
-    repo: 'https://github.commw_url_pathmedia/mediawiki-extensions-LookupUser.git'
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-LookupUser.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mw_path }}/extensions/LookupUser'
     load_strs:
