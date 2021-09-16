@@ -2,7 +2,7 @@
 
 - name: 1 Is MW dir present?
   stat:
-    path: '{{ mw.path }}/maintenance'
+    path: '{{ mw.fullpath }}/maintenance'
   register: stat_mediawiki_repo
 
 - name: 2 print stat_mediawiki_repo
@@ -12,7 +12,7 @@
 - name: 3 Clone mediawiki
   git:
     repo: 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git'
-    dest: '{{ mw.path }}'
+    dest: '{{ mw.fullpath }}'
     version: "{{ mediawiki_version|default('HEAD') }}"
     depth: 1
     force: yes
@@ -33,54 +33,54 @@
 
 - name: 6 Is LocalSettings.php present?
   stat:
-    path: '{{ mw.path }}/LocalSettings.php'
+    path: '{{ mw.fullpath }}/LocalSettings.php'
   register: stat_LocalSettings
 
 - name: 7 Discard old LocalSettings
   file:
-    path: '{{ mw.path }}/LocalSettings.php'
+    path: '{{ mw.fullpath }}/LocalSettings.php'
     state: absent
   when: stat_LocalSettings
 
 - name: 8 Install mediawiki
-  command: php {{ mw.path }}/maintenance/install.php
+  command: php {{ mw.fullpath }}/maintenance/install.php
     --dbname {{ mw.db.name | quote }}
     --dbuser {{ mw.db.user | quote }}
     --dbpass {{ mw.db.pwd | quote }}
     --dbtype {{ mw.db.connection | quote }}
     --lang {{ mediawiki_language | quote }}
     --pass {{ mw.admin_user.pwd | quote }}
-    --scriptpath {{ mw.path | quote }}
+    --scriptpath {{ mw.script_path | quote }}
     --server {{ vm_url | quote }}
     {{ mw.instance_name | quote }} {{ mw.admin_user.name | quote }}
   args:
-    creates: '{{ mw.path }}/LocalSettings.php'
+    creates: '{{ mw.fullpath }}/LocalSettings.php'
 
 - name: runJobs every minute
   cron:
     name: "run MW jobs"
     minute: "*/1"
-    job: ' /usr/bin/php {{ mw.path }}/maintenance/runJobs.php --maxtime=3600  > /dev/null'
+    job: ' /usr/bin/php {{ mw.fullpath }}/maintenance/runJobs.php --maxtime=3600  > /dev/null'
 
 # LocalSettings
 
 - name: LocalSettings Email
   replace:
-    path: '{{ mw.path }}/LocalSettings.php'
+    path: '{{ mw.fullpath }}/LocalSettings.php'
     regexp: '\"\w.+\@\w.+\"\;'
     replace: '"{{ mw.admin_email }}";'
 
 - name: Logo copy
   copy:
     src: '{{ mw.logo }}'
-    dest: '{{ mw.path }}/resources/assets{{ mw.url_path }}.png'
+    dest: '{{ mw.fullpath }}/resources/assets{{ mw.url_path }}.png'
     owner: www-data
     group: www-data
   when: mw.logo|length > 1
 
 - name: Settings in LocalSetting.php
   blockinfile:
-    path: '{{ mw.path }}/LocalSettings.php'
+    path: '{{ mw.fullpath }}/LocalSettings.php'
     insertafter: EOF
     block: |
         # Job are run by cron
@@ -110,7 +110,7 @@
 
 - name: write permissions to images/
   file:
-    path: '{{ mw.path }}/images'
+    path: '{{ mw.fullpath }}/images'
     state: directory
     mode: a+rw
     recurse: yes
@@ -133,7 +133,7 @@
 # extensions - Bundle
 - name: Enable MW Pre-Bundled Extensions
   lineinfile:
-    path: '{{ mw.path }}/LocalSettings.php'
+    path: '{{ mw.fullpath }}/LocalSettings.php'
     insertafter: EOF
     line: "# {{ item.ext_name }}\n{{ item.load_strs | join('\n') }}\n"
   with_items:
@@ -143,13 +143,13 @@
 - name: Install Composer Extensions
   command:
     cmd: composer require {{ item.composer_cmd }} --update-no-dev --quiet
-    chdir: '{{ mw.path }}'
+    chdir: '{{ mw.fullpath }}'
   with_items:
     - '{{ extensions_composer }}'
 
 - name: Enable Composer Extensions
   lineinfile:
-    path: '{{ mw.path }}/LocalSettings.php'
+    path: '{{ mw.fullpath }}/LocalSettings.php'
     insertafter: 'EOF'
     line: "# {{ item.ext_name }}\n{{ item.load_strs | join('\n') }}\n"
     state: present
@@ -171,7 +171,7 @@
 
 - name: Enable Git Extensions
   lineinfile:
-    path: '{{ mw.path }}/LocalSettings.php'
+    path: '{{ mw.fullpath }}/LocalSettings.php'
     insertafter: EOF
     line: "# {{ item.ext_name }}\n{{ item.load_strs | join('\n') }}\n"
   with_items: '{{ extensions_git }}'
@@ -184,14 +184,14 @@
 - name: Install Chameleon Skin (LSK Fork)
   git:
     repo: 'https://github.com/TIBHannover/chameleon.git'
-    dest: '{{ mw.path }}/skins/chameleon'
+    dest: '{{ mw.fullpath }}/skins/chameleon'
     version: '{{ mw.chameleon_skin_branch }}'
     depth: 1
     force: yes
 
 - name: Enable Chameleon Skin
   blockinfile:
-    path: '{{ mw.path }}/LocalSettings.php'
+    path: '{{ mw.fullpath }}/LocalSettings.php'
     insertafter: EOF
     block: | 
       wfLoadSkin( 'chameleon' );
@@ -200,7 +200,7 @@
 
 - name: Chameleon skin as default
   replace:
-      path: '{{ mw.path }}/LocalSettings.php'
+      path: '{{ mw.fullpath }}/LocalSettings.php'
       regexp: '\$wgDefaultSkin\ =\ \"vector\";'
       replace: '$wgDefaultSkin = "chameleon";'
 

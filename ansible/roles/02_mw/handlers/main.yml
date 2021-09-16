@@ -17,4 +17,4 @@
 - name: update_mw
   command:
     cmd: 'php maintenance/update.php'
-    chdir: '{{ mw.path }}'
+    chdir: '{{ mw.fullpath }}'

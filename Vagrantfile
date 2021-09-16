@@ -27,6 +27,6 @@ Vagrant.configure("2") do |config|
     ansible.config_file = "ansible/ansible.cfg"
     ansible.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
     # ansible.start_at_task = "add custome name to redis service in docker-compose.yml"
-    # ansible.tags = "webserver"  # limit playbook execution to tag
+    # ansible.tags = "utils"  # limit playbook execution to tag
   end
 end

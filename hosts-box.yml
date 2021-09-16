@@ -11,8 +11,9 @@ all:
       vm_url_path: '/box' # start with / 
       mariadb_root_pass: mysqlpwd
       mw:
-        url_path: '/wiki' # start with / 
-        path: '/var/www/html{{ mw.path }}'
+        url_path: '{{ vm_url_path }}' # # start with / 
+        fullpath: '/var/www/html/{{ vm_url_path }}/wiki'  # based on mw.url_path
+        script_path: '{{ vm_url_path }}/wiki' # based on mw.url_path
         instance_name: 'smwbox' 
         admin_user:
           name: Admin 
@@ -22,6 +23,6 @@ all:
           name: 'smwbox' 
           user: 'smwbox_db_user' 
           pwd: 'smwbox_db_user_pwd' 
-        admin_email: user@domain.com 
-        mw_logo: '' 
+        admin_email: 'user@domain.com' 
+        logo: 'sfb1153.png' 
         chameleon_skin_branch: 'sfb1153'

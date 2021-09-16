@@ -77,21 +77,21 @@ extensions_git:
     enable: true
     repo: 'https://gerrit.wikimedia.org/r/mediawiki/extensions/PageForms.git'
     version: '{{ mediawiki_version }}'
-    dest: '{{ mw.path }}/extensions/PageForms'
+    dest: '{{ mw.fullpath }}/extensions/PageForms'
     load_strs: 
       - "wfLoadExtension( 'PageForms' );"
   - ext_name: 'ParserFunctions'
     enable: true
     repo: 'https://github.com/wikimedia/mediawiki-extensions-ParserFunctions.git'
     version: '{{ mediawiki_version }}'
-    dest: '{{ mw.path }}/extensions/ParserFunctions'
+    dest: '{{ mw.fullpath }}/extensions/ParserFunctions'
     load_strs: 
       - "wfLoadExtension( 'ParserFunctions' );"
   - ext_name: 'Interwiki'
     enable: true
     repo: 'https://gerrit.wikimedia.org/r/mediawiki/extensions/Interwiki.git'
     version: '{{ mediawiki_version }}'
-    dest: '{{ mw.path }}/extensions/Interwiki'
+    dest: '{{ mw.fullpath }}/extensions/Interwiki'
     load_strs: 
       - "wfLoadExtension( 'Interwiki' );"
       - "$wgGroupPermissions['sysop']['interwiki'] = true;"
@@ -99,28 +99,28 @@ extensions_git:
     enable: true
     repo: 'https://gerrit.wikimedia.org/r/mediawiki/extensions/AdminLinks.git'
     version: '{{ mediawiki_version }}'
-    dest: '{{ mw.path }}/extensions/AdminLinks'
+    dest: '{{ mw.fullpath }}/extensions/AdminLinks'
     load_strs: 
       - "wfLoadExtension( 'AdminLinks' );"
   - ext_name: 'ReplaceText'
     enable: true
     repo: 'https://github.com/wikimedia/mediawiki-extensions-ReplaceText.git'
     version: '{{ mediawiki_version }}'
-    dest: '{{ mw.path }}/extensions/ReplaceText'
+    dest: '{{ mw.fullpath }}/extensions/ReplaceText'
     load_strs: 
       - "wfLoadExtension( 'ReplaceText' );"
   - ext_name: 'SemanticDrilldown'
     enable: true
     repo: 'https://github.com/wikimedia/mediawiki-extensions-SemanticDrilldown.git'
     version: '{{ mediawiki_version }}'
-    dest: '{{ mw.path }}/extensions/SemanticDrilldown'
+    dest: '{{ mw.fullpath }}/extensions/SemanticDrilldown'
     load_strs:  
       - 'require_once "$IP/extensions/SemanticDrilldown/SemanticDrilldown.php";'
   - ext_name: 'ConfirmAccount'
     enable: true
     repo: 'https://github.com/wikimedia/mediawiki-extensions-ConfirmAccount.git'
     version: '{{ mediawiki_version }}'
-    dest: '{{ mw.path }}/extensions/ConfirmAccount'
+    dest: '{{ mw.fullpath }}/extensions/ConfirmAccount'
     load_strs:
       - 'require_once "$IP/extensions/ConfirmAccount/ConfirmAccount.php";'
       - '$wgConfirmAccountRequestFormItems["Biography"]["enabled"] = false;'
@@ -130,14 +130,14 @@ extensions_git:
     enable: true
     repo: 'https://gerrit.wikimedia.org/r/mediawiki/extensions/MyVariables.git'
     version: '{{ mediawiki_version }}'
-    dest: '{{ mw.path }}/extensions/MyVariables'
+    dest: '{{ mw.fullpath }}/extensions/MyVariables'
     load_strs:
       - "wfLoadExtension( 'MyVariables' );"
   - ext_name: 'AutoCreatePage'  # UNMAINTAINED: Only SFBS use it
     enable: true
     repo: 'https://github.com/mkroetzsch/AutoCreatePage.git'
     version: 'master'
-    dest: '{{ mw.path }}/extensions/AutoCreatePage'
+    dest: '{{ mw.fullpath }}/extensions/AutoCreatePage'
     load_strs:
       - 'require_once "$IP/extensions/AutoCreatePage/AutoCreatePage.php";'
       - '$egAutoCreatePageNamespaces = [NS_MAIN];'
@@ -145,14 +145,14 @@ extensions_git:
     enable: true
     repo: 'https://github.com/wikimedia/mediawiki-extensions-Arrays.git'
     version: '{{ mediawiki_version }}'
-    dest: '{{ mw.path }}/extensions/Arrays'
+    dest: '{{ mw.fullpath }}/extensions/Arrays'
     load_strs:
       - "wfLoadExtension( 'Arrays' );"
   - ext_name: 'LookupUser'  
     enable: true
     repo: 'https://github.com/wikimedia/mediawiki-extensions-LookupUser.git'
     version: '{{ mediawiki_version }}'
-    dest: '{{ mw.path }}/extensions/LookupUser'
+    dest: '{{ mw.fullpath }}/extensions/LookupUser'
     load_strs:
       - "wfLoadExtension( 'LookupUser' );"
       - "$wgGroupPermissions['*']['lookupuser'] = false;"
