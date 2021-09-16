@@ -12,7 +12,7 @@ all:
       mariadb_root_pass: mysqlpwd
       mw:
         url_path: '/wiki' # start with / 
-        path: '/var/www/html{{ mw_url_path }}'
+        path: '/var/www/html{{ mw.path }}'
         instance_name: 'smwbox' 
         admin_user:
           name: Admin 
