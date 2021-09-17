@@ -1,7 +1,7 @@
 ---
 - name:  0 debug host_vars
   debug:
-    msg: 'vm_url: {{ vm_url }}; ansible_python_interpreter {{ ansible_python_interpreter }} {{ mw.fullpath }}/maintenance'
+    msg: 'vm_url: {{ vm_url }}; ansible_python_interpreter {{ ansible_python_interpreter }} {{ mw.fullpath }}/maintenance {{mw.script_path}}'
 
 
 - name: 1 Install aptitude

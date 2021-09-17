@@ -12,29 +12,29 @@
 
 # Mediawiki =pretty URLs
 
-location {{ mw.url_path }}/images {
+location {{ mw.script_path }}/images {
     # Separate location for images/ so .php execution won't apply
 }
 
-location {{ mw.url_path }}/images/deleted {
+location {{ mw.script_path }}/images/deleted {
     # Deny access to deleted images folder
     deny all;
 }
 
 # MediaWiki assets (usually images)
-location ~ ^{{ mw.url_path }}/resources/(assets|lib|src) {
+location ~ ^{{ mw.script_path }}/resources/(assets|lib|src) {
     try_files $uri 404;
     add_header Cache-Control "public";
     expires 7d;
 }
 
 # Assets, scripts and styles from skins and extensions
-location ~ ^{{ mw.url_path }}/(skins|extensions)/.+\.(woff2|woff|ttf|css|js|gif|jpg|jpeg|png|svg|wasm)$ {
+location ~ ^{{ mw.script_path }}/(skins|extensions)/.+\.(woff2|woff|ttf|css|js|gif|jpg|jpeg|png|svg|wasm)$ {
     try_files $uri 404;
     add_header Cache-Control "public";
     expires 7d;
 }
 
-location {{ mw.url_path }}/ {
-    rewrite ^{{ mw.url_path }}/(?<pagename>.*)$ {{ mw.url_path }}/index.php;
+location {{ mw.script_path }}/ {
+    rewrite ^{{ mw.script_path }}/(?<pagename>.*)$ {{ mw.script_path }}/index.php;
 }
