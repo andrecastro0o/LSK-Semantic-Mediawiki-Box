@@ -21,8 +21,8 @@ Requirements to run box:
 
 Run the following steps in Terminal (Linux/macOS) or GitBash (Windows):
 ```bash
-git clone git@git.tib.eu:lab-linked-scientific-knowledge/semantic-mediawiki-box.git
-cd semantic-mediawiki-box
+git clone https://github.com/TIBHannover/LSK-Semantic-Mediawiki-Box.git
+cd LSK-Semantic-Mediawiki-Box
 vagrant up
 ```
 
