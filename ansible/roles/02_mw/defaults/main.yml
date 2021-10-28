@@ -67,7 +67,7 @@ extensions_composer:
 extensions_git:
   - ext_name: 'PageForms'
     enable: true
-    repo: 'https://gerrit.wikimedia.org/r/mediawiki/extensions/PageForms.git'
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-PageForms.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mw.fullpath }}/extensions/PageForms'
     load_strs: 
@@ -105,7 +105,7 @@ extensions_git:
       - '$wgGroupPermissions["bureaucrat"]["confirmaccount-notify"] = true;'
   - ext_name: 'MyVariables'
     enable: true
-    repo: 'https://gerrit.wikimedia.org/r/mediawiki/extensions/MyVariables.git'
+    repo: 'https://github.com/wikimedia/mediawiki-extensions-MyVariables.git'
     version: '{{ mediawiki_version }}'
     dest: '{{ mw.fullpath }}/extensions/MyVariables'
     load_strs:
