@@ -211,7 +211,7 @@
 #     depth: 1
 #     force: yes
 
-- name: Enable Chameleon Skin
+- name: Enable Chameleon Skin 
   blockinfile:
     path: '{{ mw.fullpath }}/LocalSettings.php'
     insertafter: EOF

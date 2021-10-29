@@ -9,7 +9,6 @@ all:
       ansible_python_interpreter: '/usr/bin/python3' 
       vm_url: 'http://192.168.60.120'
       vm_url_path: '/box' # start with / 
-      mariadb_root_pass: mysqlpwd
       mw:
         url_path: '{{ vm_url_path }}' # # start with / 
         fullpath: '/var/www/html{{ vm_url_path }}/wiki'  # based on mw.url_path

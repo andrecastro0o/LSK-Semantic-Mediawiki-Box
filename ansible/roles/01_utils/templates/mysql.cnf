@@ -6,16 +6,16 @@ max_allowed_packet=16777216
 
 [client]
 user=root
-password="{{ mariadb_root_pass }}"
+password="{{ mw.db.pwd }}"
 
 [mysql]
 user=root
-password="{{ mariadb_root_pass }}"
+password="{{ mw.db.pwd }}"
 
 [mysqldump]
 user=root
-password="{{ mariadb_root_pass }}"
+password="{{ mw.db.pwd }}"
 
 [mysqldiff]
 user=root
-password="{{ mariadb_root_pass }}"
+password="{{ mw.db.pwd }}"
