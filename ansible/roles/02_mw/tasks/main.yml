@@ -146,10 +146,6 @@
     dest: '{{ mw.fullpath }}/composer.local.json'
     mode: u=rw,g=rw,o=rw
 
-- name: COMPOSER_ALLOW_SUPERUSER
-  command:
-    cmd: 'export COMPOSER_ALLOW_SUPERUSER=1;' 
-
 - name: Require Composer Extensions
   shell:
     cmd: |
@@ -164,6 +160,8 @@
   command:
     cmd: 'composer update --no-dev'
     chdir: '{{ mw.fullpath }}'
+  environment:
+    COMPOSER_ALLOW_SUPERUSER: '1'
 
 - name: Enable Composer Extensions in LocalSettings.php
   lineinfile:
