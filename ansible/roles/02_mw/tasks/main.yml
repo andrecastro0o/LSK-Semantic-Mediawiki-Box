@@ -83,6 +83,9 @@
     path: '{{ mw.fullpath }}/LocalSettings.php'
     insertafter: EOF
     block: |
+        # pretty urls
+        $wgArticlePath = "{{ script_path }}/$1";
+        $wgUsePathInfo = true;
         # Job are run by cron
         $wgJobRunRate = 0;
         # Permissions
