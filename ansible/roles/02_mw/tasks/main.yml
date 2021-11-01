@@ -73,10 +73,11 @@
 - name: Logo copy
   copy:
     src: '{{ mw.logo }}'
-    dest: '{{ mw.fullpath }}/resources/assets{{ mw.url_path }}.png'
+    dest: '{{ mw.fullpath }}/resources/assets/wiki.png'
+    force: yes
     owner: www-data
     group: www-data
-  when: mw.logo|length > 1
+  # default in LocalSettings.php $wgLogos = [ '1x' => "$wgResourceBasePath/resources/assets/wiki.png" ];
 
 - name: Settings in LocalSetting.php
   blockinfile:
