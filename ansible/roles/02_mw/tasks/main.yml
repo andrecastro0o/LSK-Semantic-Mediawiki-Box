@@ -79,9 +79,10 @@
     group: www-data
   # default in LocalSettings.php $wgLogos = [ '1x' => "$wgResourceBasePath/resources/assets/wiki.png" ];
 
-- name: Settings in LocalSetting.php
+- name: Settings in LocalSettings.php
   blockinfile:
     path: '{{ mw.fullpath }}/LocalSettings.php'
+    marker: "# <!-- {mark} CUSTOM SETTINGS -->"    
     insertafter: EOF
     block: |
         # pretty urls
@@ -111,7 +112,8 @@
         $wgShowDBErrorBacktrace=true;
         error_reporting(-1);
         ini_set('display_errors',1);
-
+  # Note: custom markers are needed since playbook has more than 1 blockinfile writing to same file
+  
 - name: write permissions to images/
   file:
     path: '{{ mw.fullpath }}/images'
@@ -220,6 +222,7 @@
 - name: Enable Chameleon Skin 
   blockinfile:
     path: '{{ mw.fullpath }}/LocalSettings.php'
+    marker: "# <!-- {mark} Chameleon Skin SETTINGS -->"    
     insertafter: EOF
     block: | 
       wfLoadSkin( 'chameleon' );
