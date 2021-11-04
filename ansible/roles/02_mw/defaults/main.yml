@@ -55,7 +55,7 @@ extensions_composer:
       - "$smwgFieldTypeFeatures=SMW_FIELDT_CHAR_NOCASE;"
       - "$smwgQMaxInlineLimit=1500;"
       - "$smwgQMaxInlineLimitSets=1500;"
-      - "$smwgChangePropagationProtection=true;"
+      - "$smwgChangePropagationProtection=false;"
       - "$smwgPageSpecialProperties=array_merge($smwgPageSpecialProperties, ['_LEDT', '_CDAT', '_NEWP' ]);"
       - "$wgCapitalLinks=false;"
   - ext_name: "Semantic Result Formats"
