@@ -121,15 +121,15 @@
     mode: a+rw
     recurse: yes
 
-- name: Change /etc/php/7.3/fpm/php.ini post_max_size size
+- name: Change /etc/php/7.4/fpm/php.ini post_max_size size
   lineinfile:
-    path: /etc/php/7.3/fpm/php.ini
+    path: /etc/php/7.4/fpm/php.ini
     regexp: '^post_max_size'
     line: post_max_size = 20M
 
-- name: Change /etc/php/7.3/fpm/php.ini upload_max_filesize size
+- name: Change /etc/php/7.4/fpm/php.ini upload_max_filesize size
   lineinfile:
-    path: /etc/php/7.3/fpm/php.ini
+    path: /etc/php/7.4/fpm/php.ini
     regexp: '^upload_max_filesize'
     line: upload_max_filesize = 20M
   notify: 
@@ -146,28 +146,65 @@
     - '{{ extensions_bundled }}'
 
 # extensions - Composer
+- name: Copy composer.local.json 
+  copy:
+    src: composer.local.json
+    dest: '{{ mw.fullpath }}/composer.local.json'
+    mode: u=rw,g=rw,o=rw
+  become: true
+
+# - name: Read and write permissions to  composer files
+#   file:
+#     path: '{{ mw.fullpath }}/{{ item }}'
+#     mode: 'a+rw'
+#   become: false
+#   become_user: '{{ ansible_ssh_user }}'
+#   loop:
+#     - composer.local.json
+
 - name: touch composer.local.json file
   copy:
     src: composer.local.json
     dest: '{{ mw.fullpath }}/composer.local.json'
     mode: u=rw,g=rw,o=rw
+  become: true
+  become_user: '{{ ansible_ssh_user }}'
+
+- name: allow-plugins.wikimedia/composer-merge-plugin
+  shell:
+    cmd: |
+      COMPOSER=composer.local.json composer config --no-plugins allow-plugins.wikimedia/composer-merge-plugin true -n 
+    chdir: '{{ mw.fullpath }}'
+  become: true
+  # become_user: '{{ ansible_ssh_user }}'
 
 - name: Require Composer Extensions
   shell:
     cmd: |
-      COMPOSER=composer.local.json composer require --no-update "{{ item.composer_cmd }}"
+      COMPOSER=composer.local.json composer require --no-update "{{ item.composer_cmd }}" -n
     chdir: '{{ mw.fullpath }}'
   with_items:
     - '{{ extensions_composer }}'
-  become: false
-  become_user: '{{ ansible_ssh_user }}'
+  become: true
+  # become_user: '{{ ansible_ssh_user }}'
+
+# - name: Read and write permissions to  composer files
+#   file:
+#     path: '{{ mw.fullpath }}/{{ item }}'
+#     mode: 'a+rw'
+#     state: 'touch'
+#   become: true
+#   loop:
+#     - composer.local.lock
 
 - name: Composer update
   command:
-    cmd: 'composer update --no-dev'
+    cmd: 'COMPOSER=composer.local.json composer update --no-dev -n'
     chdir: '{{ mw.fullpath }}'
   environment:
     COMPOSER_ALLOW_SUPERUSER: '1'
+  become: true
+  # become_user: '{{ ansible_ssh_user }}'
 
 - name: Enable Composer Extensions in LocalSettings.php
   lineinfile:
@@ -178,6 +215,8 @@
   with_items:
     - '{{ extensions_composer }}'
   notify: update_mw
+  become: true
+  # become_user: '{{ ansible_ssh_user }}'
 
 # extensions - Git
 - name: Install Git Extensions
@@ -201,38 +240,5 @@
   notify: update_mw
   tags: git_ext
 
-
-# skin
-- name: Install Chameleon Skin (LSK Fork)
-  git:
-    repo: 'https://github.com/TIBHannover/chameleon.git'
-    dest: '{{ mw.fullpath }}/skins/chameleon'
-    version: '{{ mw.chameleon_skin_branch }}'
-    depth: 1
-    force: yes
-
-# - name: Install Chameleon Skin (upstream)
-#   git:
-#     repo: 'https://github.com/ProfessionalWiki/chameleon.git'
-#     dest: '{{ mw.fullpath }}/skins/chameleon'
-#     version: 'master'
-#     depth: 1
-#     force: yes
-
-- name: Enable Chameleon Skin 
-  blockinfile:
-    path: '{{ mw.fullpath }}/LocalSettings.php'
-    marker: "# <!-- {mark} Chameleon Skin SETTINGS -->"    
-    insertafter: EOF
-    block: | 
-      wfLoadSkin( 'chameleon' );
-      $egChameleonLayoutFile = __DIR__ . '/skins/chameleon/layouts/custom.xml';
-      $egChameleonExternalStyleModule =  __DIR__ . '/skins/chameleon/resources/styles/custom.scss';
-
-- name: Chameleon skin as default
-  replace:
-      path: '{{ mw.fullpath }}/LocalSettings.php'
-      regexp: '\$wgDefaultSkin\ =\ \"vector\";'
-      replace: '$wgDefaultSkin = "chameleon";'
 
   

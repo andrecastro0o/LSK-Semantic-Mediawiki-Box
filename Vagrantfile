@@ -3,7 +3,7 @@
 
 Vagrant.configure("2") do |config|
   config.vm.define "smw" do |smw|
-    smw.vm.box = "debian/buster64"    
+    smw.vm.box = "ubuntu/focal64"    
     smw.ssh.insert_key = false
     smw.vm.hostname = "smw.box"
     smw.vm.synced_folder ".", "/vagrant", create: true, disabled: false

@@ -34,7 +34,6 @@
     - mariadb-server
     - python3-mysqldb
     - python3-pymysql
-    - python-pymysql
     - php
     - imagemagick
 
